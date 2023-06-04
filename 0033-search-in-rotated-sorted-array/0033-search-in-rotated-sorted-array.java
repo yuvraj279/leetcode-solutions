@@ -1,35 +1,32 @@
 class Solution {
-    public int search(int[] arr, int target) {
-        int start=0;
-        int end=arr.length-1;
-      return binarysearch(arr,target,start,end);
+    public int search(int[] nums, int target) {
+        int s=0;
+        int e=nums.length-1;
+        return find(nums,target,s,e);
     }
-    static int binarysearch(int[] arr,int target,int start,int end){
-        if(start>end){
+    int find(int[] nums, int target, int s,int e){
+        if(s>e){
+            // ans not found
             return -1;
         }
-	    int mid=start+(end-start)/2;
-	    if(target==arr[mid]){
-	        return mid;
-	    }
-	    if(arr[start]<=arr[mid]){
-	        if((target<=arr[mid])&&(target>=arr[start])){
-	            end=mid-1;
-	            return binarysearch(arr,target,start,end);
-	        }else{
-	            start=mid+1;
-	            return binarysearch(arr,target,start,end);
-	        }
-	    }
-	    if(arr[mid]<=arr[end]){
-	        if((target>=arr[mid])&&(target<=arr[end])){
-	            start=mid+1;
-	            return binarysearch(arr,target,start,end);
-	        }else{
-	            end=mid-1;
-	            return binarysearch(arr,target,start,end);
-	        }
-	    }
-        return -1;
-	}
+        int mid=s+(e-s)/2;
+        if(nums[mid]== target) return mid;
+        if(nums[mid]>=nums[s]){
+            if(target<=nums[mid]&& target>=nums[s]){
+                return find(nums,target,s,mid-1);
+            }else{
+                return find(nums,target,mid+1,e);
+            }
+        }
+        else if(nums[mid]<=nums[e]){
+            if(target<=nums[e] && target>=nums[mid]){
+                return find(nums,target,mid+1,e);
+            }else{
+                return find(nums,target,s,mid-1);
+            }
+            
+        }else{
+            return find(nums,target,s,mid-1);
+        }
+    }
 }
